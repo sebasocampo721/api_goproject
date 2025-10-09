@@ -1,9 +1,11 @@
 const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
-  service: "Gmail",
+  host: process.env.EMAIL_HOST || "smtp-relay.brevo.com",
+  port: process.env.EMAIL_PORT || 587,
+  secure: false, // debe ser false para puerto 587
   auth: {
-    user: process.env.EMAIL_FROM,
+    user: process.env.EMAIL_USER, // cambia: antes usabas EMAIL_FROM
     pass: process.env.EMAIL_PASS,
   },
 });
@@ -19,7 +21,7 @@ const transporter = nodemailer.createTransport({
  */
 const sendEmail = async ({ to, subject, text, html }) => {
   const mailOptions = {
-    from: process.env.EMAIL_FROM,
+    from: `"GoProject" <${process.env.EMAIL_FROM}>`, // nombre visible en el correo
     to,
     subject,
     text,
@@ -29,10 +31,10 @@ const sendEmail = async ({ to, subject, text, html }) => {
   return new Promise((resolve, reject) => {
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
-        console.error("Error al enviar el correo:", error);
+        console.error("❌ Error al enviar el correo:", error);
         return reject(error);
       }
-      console.log("Correo enviado:", info.response);
+      console.log("✅ Correo enviado:", info.response);
       resolve(info);
     });
   });
