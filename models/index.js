@@ -23,6 +23,7 @@ Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
   }
+  console.log("✅ Modelos registrados:", Object.keys(db));
 });
 
 db.sequelize = sequelize;

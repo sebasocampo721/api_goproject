@@ -40,36 +40,30 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
 
- // Método estático para login
+    // Método estático para login
+    // Método estático para login
 static async login(email, password) {
   try {
-    // ✅ Obtenemos todos los modelos cargados desde la instancia Sequelize
-    const models = sequelize.models; // 👈 Usa directamente la instancia importada arriba
-    const UserType = models.userType || models.UserType; // 👈 Compatible con ambos nombres
+    const { userType } = sequelize.models; // ✅ Trae el modelo directamente del sequelize global
 
-    if (!UserType) {
-      console.error("❌ No se encontró el modelo userType en sequelize.models");
-      return { status: 500, message: "Error interno: modelo userType no encontrado" };
+    if (!userType) {
+      console.error("❌ userType model no está registrado en Sequelize.");
+      return { status: 500, message: "Modelo userType no encontrado" };
     }
 
-    // ✅ Realizamos la búsqueda del usuario con el include correctamente referenciado
     const user = await this.findOne({
       where: {
         email,
         state: 'Activo'
       },
-      include: [
-        {
-          model: UserType,
-          as: 'userType',
-          attributes: { exclude: ['createdAt', 'updatedAt'] }
-        }
-      ]
+      include: [{
+        model: userType, // ✅ usa el modelo directamente
+        as: 'userType'
+      }]
     });
 
     if (!user) return { status: 404, message: 'Usuario no encontrado o inactivo' };
 
-    // ✅ Verificamos la contraseña
     const valid = await user.authenticatePassword(password);
     return valid
       ? { status: 200, user }
@@ -80,7 +74,6 @@ static async login(email, password) {
     return { status: 500, message: "Error interno del servidor", error: error.message };
   }
 }
-
 
 
     // Método estático para actualizar contraseña
