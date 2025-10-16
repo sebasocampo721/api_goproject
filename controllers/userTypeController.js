@@ -4,17 +4,13 @@ module.exports = {
   async getAll(req, res) {
     try {
       const userTypes = await userType.findAll({
-        include: [
-          {
-            model: user,
-            as: 'users',
-            attributes: { exclude: ['password', 'createdAt', 'updatedAt'] }
-          }
-        ]
+        include: {
+          model: user,
+          as: 'users'
+        }
       });
       res.json(userTypes);
     } catch (error) {
-      console.error("❌ Error en getAll:", error);
       res.status(500).json({ error: error.message });
     }
   },
@@ -22,18 +18,14 @@ module.exports = {
   async getOne(req, res) {
     try {
       const oneUserType = await userType.findByPk(req.params.id, {
-        include: [
-          {
-            model: user,
-            as: 'users',
-            attributes: { exclude: ['password', 'createdAt', 'updatedAt'] }
-          }
-        ]
+        include: {
+          model: user,
+          as: 'users'
+        }
       });
       if (!oneUserType) return res.status(404).json({ error: "UserType not found" });
       res.json(oneUserType);
     } catch (error) {
-      console.error("❌ Error en getOne:", error);
       res.status(500).json({ error: error.message });
     }
   },
@@ -54,13 +46,10 @@ module.exports = {
       });
       if (!updated) return res.status(404).json({ error: "UserType not found" });
       const updatedUserType = await userType.findByPk(req.params.id, {
-        include: [
-          {
-            model: user,
-            as: 'users',
-            attributes: { exclude: ['password', 'createdAt', 'updatedAt'] }
-          }
-        ]
+        include: {
+          model: user,
+          as: 'users'
+        }
       });
       res.json(updatedUserType);
     } catch (error) {
