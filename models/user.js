@@ -22,12 +22,12 @@ module.exports = (sequelize, DataTypes) => {
 
       user.hasOne(models.researcher, {
         foreignKey: 'userId',
-        as: 'investigador'
+        as: 'researcher'
       });
 
       user.hasOne(models.learner, {
         foreignKey: 'userId',
-        as: 'aprendiz'
+        as: 'learner'
       });
     }
 
