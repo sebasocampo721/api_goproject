@@ -40,32 +40,47 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
 
-    // Método estático para login
-    // Método estático para login
+ // Método estático para login
 static async login(email, password) {
-  const { userType } = this.sequelize.models; // 👈 así tomamos el modelo de forma segura
+  try {
+    // ✅ Obtenemos todos los modelos cargados desde la instancia Sequelize
+    const models = sequelize.models; // 👈 Usa directamente la instancia importada arriba
+    const UserType = models.userType || models.UserType; // 👈 Compatible con ambos nombres
 
-  const user = await this.findOne({
-    where: {
-      email,
-      state: 'Activo'
-    },
-    include: [
-      {
-        model: userType,
-        as: 'userType',
-        attributes: { exclude: ['createdAt', 'updatedAt'] }
-      }
-    ]
-  });
+    if (!UserType) {
+      console.error("❌ No se encontró el modelo userType en sequelize.models");
+      return { status: 500, message: "Error interno: modelo userType no encontrado" };
+    }
 
-  if (!user) return { status: 404, message: 'Usuario no encontrado o inactivo' };
+    // ✅ Realizamos la búsqueda del usuario con el include correctamente referenciado
+    const user = await this.findOne({
+      where: {
+        email,
+        state: 'Activo'
+      },
+      include: [
+        {
+          model: UserType,
+          as: 'userType',
+          attributes: { exclude: ['createdAt', 'updatedAt'] }
+        }
+      ]
+    });
 
-  const valid = await user.authenticatePassword(password);
-  return valid
-    ? { status: 200, user }
-    : { status: 401, message: 'Usuario y/o contraseña inválidos' };
+    if (!user) return { status: 404, message: 'Usuario no encontrado o inactivo' };
+
+    // ✅ Verificamos la contraseña
+    const valid = await user.authenticatePassword(password);
+    return valid
+      ? { status: 200, user }
+      : { status: 401, message: 'Usuario y/o contraseña inválidos' };
+
+  } catch (error) {
+    console.error("❌ Error en login:", error);
+    return { status: 500, message: "Error interno del servidor", error: error.message };
+  }
 }
+
 
 
     // Método estático para actualizar contraseña
