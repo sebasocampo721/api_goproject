@@ -1,4 +1,4 @@
-const { user, userType, admin, instructor, researcher, learner } = require('../models');
+const { user, userType, administrador, instructor, researcher, learner } = require('../models');
 
 module.exports = {
   async getAll(req, res) {
@@ -6,7 +6,7 @@ module.exports = {
       const users = await user.findAll({
         include: [
           { model: userType, as: 'userType' },
-          { model: administrador, as: 'adminitrador' },
+          { model: administrador, as: 'administrador' },
           { model: instructor, as: 'instructor' },
           { model: researcher, as: 'researcher' },
           { model: learner, as: 'learner' }
