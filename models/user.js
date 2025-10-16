@@ -41,28 +41,32 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     // Método estático para login
-    static async login(email, password) {
-      const user = await this.findOne({
-        where: {
-          email,
-          state: 'Activo'
-        },
-        include: [
-          {
-            model: this.sequelize.models.userType,
-            as: 'userType',
-            attributes: { exclude: ['createdAt', 'updatedAt'] }
-          }
-        ]
-      });
+    // Método estático para login
+static async login(email, password) {
+  const { userType } = this.sequelize.models; // 👈 así tomamos el modelo de forma segura
 
-      if (!user) return { status: 404, message: 'Usuario no encontrado o inactivo' };
+  const user = await this.findOne({
+    where: {
+      email,
+      state: 'Activo'
+    },
+    include: [
+      {
+        model: userType,
+        as: 'userType',
+        attributes: { exclude: ['createdAt', 'updatedAt'] }
+      }
+    ]
+  });
 
-      const valid = await user.authenticatePassword(password);
-      return valid
-        ? { status: 200, user }
-        : { status: 401, message: 'Usuario y/o contraseña inválidos' };
-    }
+  if (!user) return { status: 404, message: 'Usuario no encontrado o inactivo' };
+
+  const valid = await user.authenticatePassword(password);
+  return valid
+    ? { status: 200, user }
+    : { status: 401, message: 'Usuario y/o contraseña inválidos' };
+}
+
 
     // Método estático para actualizar contraseña
     static async updatePassword(id, newPassword) {
