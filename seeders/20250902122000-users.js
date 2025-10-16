@@ -4,19 +4,19 @@ const bcrypt = require("bcryptjs");
 module.exports = {
   async up(queryInterface, Sequelize) {
     // Pre-hashear todas las contraseñas
-    const hashedAdmin = await bcrypt.hash("admin123", 10);
+    const hashedAdministrador = await bcrypt.hash("admin123", 10);
     const hashedInstructor = await bcrypt.hash("instructor123", 10);
-    const hashedLearner = await bcrypt.hash("learner123", 10);
-    const hashedResearcher = await bcrypt.hash("researcher123", 10);
-    const hashedInv1 = await bcrypt.hash("pass123", 10);
-    const hashedInv2 = await bcrypt.hash("pass456", 10);
+    const hashedAprendiz = await bcrypt.hash("learner123", 10);
+    const hashedInvestigador = await bcrypt.hash("researcher123", 10);
+    const hashedInvestigador1 = await bcrypt.hash("pass123", 10);
+    const hashedInvestigador2 = await bcrypt.hash("pass456", 10);
 
     return queryInterface.bulkInsert("users", [
       {
         id: 1,
-        name: "Carlos Admin",
+        name: "Carlos ",
         email: "admin@example.com",
-        password: hashedAdmin,
+        password: hashedAdministrador,
         gender: 1,
         age: 35,
         userTypeId: 1,
@@ -38,7 +38,7 @@ module.exports = {
         id: 3,
         name: "Pedro Learner",
         email: "learner@example.com",
-        password: hashedLearner,
+        password: hashedAprendiz,
         gender: 1,
         age: 22,
         userTypeId: 3,
@@ -47,9 +47,9 @@ module.exports = {
       },
       {
         id: 4,
-        name: "Sofía Researcher",
+        name: "Sofía ",
         email: "researcher@example.com",
-        password: hashedResearcher,
+        password: hashedInvestigador,
         gender: 2,
         age: 32,
         userTypeId: 4,
@@ -60,7 +60,7 @@ module.exports = {
         id: 5,
         name: "Investigador 1",
         email: "investigador1@example.com",
-        password: hashedInv1,
+        password: hashedInvestigador1,
         gender: 1,
         age: 40,
         userTypeId: 4,
@@ -71,7 +71,7 @@ module.exports = {
         id: 6,
         name: "Investigador 2",
         email: "investigador2@example.com",
-        password: hashedInv2,
+        password: hashedInvestigador2,
         gender: 2,
         age: 38,
         userTypeId: 4,
