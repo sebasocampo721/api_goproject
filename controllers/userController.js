@@ -23,7 +23,7 @@ module.exports = {
       const oneUser = await user.findByPk(req.params.id, {
         include: [
           { model: userType, as: 'userType' },
-          { model: admin, as: 'admin' },
+          { model: administrador, as: 'administrador' },
           { model: instructor, as: 'instructor' },
           { model: researcher, as: 'researcher' },
           { model: learner, as: 'learner' }
@@ -54,7 +54,7 @@ module.exports = {
       const updatedUser = await user.findByPk(req.params.id, {
         include: [
           { model: userType, as: 'userType' },
-          { model: admin, as: 'admin' },
+          { model: administrador, as: 'administrador' },
           { model: instructor, as: 'instructor' },
           { model: researcher, as: 'researcher' },
           { model: learner, as: 'learner' }
