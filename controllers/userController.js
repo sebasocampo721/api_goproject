@@ -6,7 +6,7 @@ module.exports = {
       const users = await user.findAll({
         include: [
           { model: userType, as: 'userType' },
-          { model: admin, as: 'adminitrador' },
+          { model: administrador, as: 'adminitrador' },
           { model: instructor, as: 'instructor' },
           { model: researcher, as: 'researcher' },
           { model: learner, as: 'learner' }
