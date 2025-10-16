@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         as: 'userType'
       });
 
-      user.hasOne(models.admin, {
+      user.hasOne(models.administrador, {
         foreignKey: 'userId',
         as: 'administrador'
       });
