@@ -25,6 +25,8 @@ const tagController = require('../controllers/tagController');
 const tagProjectController = require('../controllers/tagProjectController');
 const groupController = require('../controllers/groupController');
 
+const documentController = require('../controllers/documentController');
+
 const authRoutes = require('./auth.routes');
 
 
@@ -148,6 +150,14 @@ router.get('/groups/:id', groupController.getOne);
 router.post('/groups', groupController.create);
 router.put('/groups/:id', groupController.update);
 router.delete('/groups/:id', groupController.delete);
+
+
+// Rutas para documents
+router.get('/documents', documentController.getAll);
+router.get('/documents/:id', documentController.getOne);
+router.post('/documents', documentController.create);
+router.put('/documents/:id', documentController.update);
+router.delete('/documents/:id', documentController.delete);
 
 
 
