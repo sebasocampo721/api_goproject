@@ -77,36 +77,42 @@ module.exports = (sequelize, DataTypes) => {
   }
 
   user.init({
-    name: DataTypes.STRING,
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    gender: DataTypes.INTEGER,
-    age: DataTypes.INTEGER,
-    userTypeId: DataTypes.INTEGER,
-    state: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      defaultValue: "Activo"
-    },
-    passwordResetToken: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    passwordResetExpires: {
-      type: DataTypes.DATE,
-      allowNull: true
-    }
-  }, {
-    sequelize,
-    modelName: 'user',
-  });
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true, // esto hace que se incremente automáticamente
+    allowNull: false
+  },
+  name: DataTypes.STRING,
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true
+  },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  gender: DataTypes.INTEGER,
+  age: DataTypes.INTEGER,
+  userTypeId: DataTypes.INTEGER,
+  state: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: "Activo"
+  },
+  passwordResetToken: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  passwordResetExpires: {
+    type: DataTypes.DATE,
+    allowNull: true
+  }
+}, {
+  sequelize,
+  modelName: 'user',
+});
 
   // Hook para encriptar contraseña al crear
   user.beforeCreate(async (user, options) => {
